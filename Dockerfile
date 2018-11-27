@@ -1,4 +1,4 @@
-FROM jenkinsci/slave:alpine
+FROM jenkins/jnlp-slave:alpine
 
 USER root
 RUN apk add --no-cache \
@@ -7,15 +7,14 @@ curl \
 openssl \
 python \
 py-pip \
-py-yaml
+py-yaml \
+alpine-sdk
 
-ENV DOCKER_BUCKET get.docker.com
-ENV DOCKER_VERSION 17.04.0-ce
-ENV DOCKER_SHA256 c52cff62c4368a978b52e3d03819054d87bcd00d15514934ce2e0e09b99dd100
+ENV DOCKER_BUCKET download.docker.com
+ENV DOCKER_VERSION 18.09.0
 
 RUN set -x \
-&& curl -fSL "https://${DOCKER_BUCKET}/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
-&& echo "${DOCKER_SHA256} *docker.tgz" | sha256sum -c - \
+&& curl -fSL "https://${DOCKER_BUCKET}/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
 && tar -xzvf docker.tgz \
 && mv docker/* /usr/local/bin/ \
 && rmdir docker \
@@ -26,7 +25,3 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 
 RUN chmod +x ./kubectl
 RUN mv ./kubectl /usr/local/bin/kubectl
-
-COPY jenkins-slave /usr/local/bin/jenkins-slave
-
-ENTRYPOINT ["jenkins-slave"]
