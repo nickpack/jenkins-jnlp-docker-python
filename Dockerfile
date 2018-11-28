@@ -2,13 +2,24 @@ FROM jenkins/jnlp-slave:alpine
 
 USER root
 RUN apk add --no-cache \
-ca-certificates \
-curl \
-openssl \
-python \
-py-pip \
-py-yaml \
-alpine-sdk
+    ca-certificates \
+    curl \
+    openssl \
+    openssl-dev \
+    g++ \
+    python3 \
+    python3-dev \
+    build-base \
+    libffi \
+    libffi-dev
+
+RUN python3 -m ensurepip && \
+    rm -r /usr/lib/python*/ensurepip && \
+    pip3 install --upgrade pip setuptools && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi
+
+RUN pip install six pynacl virtualenv
 
 ENV DOCKER_BUCKET download.docker.com
 ENV DOCKER_VERSION 18.09.0
