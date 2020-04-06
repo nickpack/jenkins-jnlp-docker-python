@@ -22,7 +22,7 @@ RUN python3 -m ensurepip && \
 RUN pip install six pynacl virtualenv
 
 ENV DOCKER_BUCKET download.docker.com
-ENV DOCKER_VERSION 18.09.0
+ENV DOCKER_VERSION 19.03.8
 
 RUN set -x \
 && curl -fSL "https://${DOCKER_BUCKET}/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
