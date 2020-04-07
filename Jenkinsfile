@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t nickpack/jenkins-jnlp-docker-python:latest .'
+        sh 'docker build -t nickp666/jenkins-jnlp-docker-python:latest .'
       }
     }
     stage('Publish') {
@@ -18,7 +18,7 @@ pipeline {
       }
       steps {
         withDockerRegistry([ credentialsId: "docker", url: "" ]) {
-          sh 'docker push nickpack/jenkins-jnlp-docker-python:latest'
+          sh 'docker push nickp666/jenkins-jnlp-docker-python:latest'
         }
       }
     }
