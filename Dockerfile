@@ -32,6 +32,11 @@ RUN set -x \
 && rm docker.tgz \
 && docker -v
 
+RUN curl -fSL "https://github.com/digitalocean/doctl/releases/download/v1.45.1/doctl-1.45.1-linux-amd64.tar.gz" -o doctl.tgz \
+&& tar -xzvf doctl.tgz \
+&& chmod +x doctl \
+&& mv ./doctl /usr/local/bin
+
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 
 RUN chmod +x ./kubectl
