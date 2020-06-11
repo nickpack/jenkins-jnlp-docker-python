@@ -22,7 +22,7 @@ RUN python3 -m ensurepip && \
 RUN pip install six pynacl virtualenv
 
 ENV DOCKER_BUCKET download.docker.com
-ENV DOCKER_VERSION 19.03.8
+ENV DOCKER_VERSION 19.03.9
 
 RUN set -x \
 && curl -fSL "https://${DOCKER_BUCKET}/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
@@ -31,6 +31,11 @@ RUN set -x \
 && rmdir docker \
 && rm docker.tgz \
 && docker -v
+
+RUN curl -fSL "https://github.com/digitalocean/doctl/releases/download/v1.45.1/doctl-1.45.1-linux-amd64.tar.gz" -o doctl.tgz \
+&& tar -xzvf doctl.tgz \
+&& chmod +x doctl \
+&& mv ./doctl /usr/local/bin
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 
